@@ -1,0 +1,26 @@
+table {
+    width: 100%;
+}
+
+table tr td {
+    padding-top: 15px;
+}
+
+.navbar-custom {
+    border-radius: 0px;
+    background-color: #BA5c3C;
+    color: white;
+}
+
+.navbar-brand { 
+    color: white;
+}
+
+.navbar-custom ul li a {
+    color: white;
+}
+
+.navbar-custom ul li a:hover {
+    background-color: #ad7764;
+    color: white;
+}
