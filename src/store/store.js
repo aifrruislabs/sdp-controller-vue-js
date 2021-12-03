@@ -10,9 +10,9 @@ export const store = new Vuex.Store({
 
 	state: {
 		
-		// baseApi: 'https://sdpapi.aifrruislabs.com',
+		baseApi: 'https://sdpapi.aifrruislabs.com',
 
-		baseApi: 'http://localhost:4201',
+		// baseApi: 'http://localhost:4201',
 
 		user: {
 			authToken: '',
@@ -38,7 +38,7 @@ export const store = new Vuex.Store({
 		//Set Token and Other Info
 		successAuth: (state, payload) => {
 
-			state.user.authToken = payload.authToken
+			state.user.authToken = payload.token
 
 		},
 
@@ -58,7 +58,8 @@ export const store = new Vuex.Store({
 		
 		//Check if User is Authenticated
 		isAuthenticated: state => {
-			if (state.user.authToken.length != 0)
+			
+			if (state.user.authToken != '')
 				return true
 			else
 				return false

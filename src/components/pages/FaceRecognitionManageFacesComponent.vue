@@ -1,13 +1,13 @@
 <template>
     <div>
-        About Page
+        Face Recognition Manage Faces
     </div>
 </template>
 
 <script>
 
-export default {
-    name: 'AboutComponent',
+    export default {
+    name: 'FaceRecognitionManageFacesComponent',
 
     data() {
       
@@ -21,6 +21,7 @@ export default {
 
     }
 }
+
 
 </script>
 

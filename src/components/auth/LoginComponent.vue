@@ -72,7 +72,9 @@ export default {
                         this.$store.state.user.lastName = data['lastName']
 
                         //Setting Token
-                        this.$store.commit('successAuth', { 'authToken' : data['authToken'] } )
+                        this.$store.commit('successAuth', { 'token' : data['authToken'] } )
+
+                        console.log(data);
 
                         //Redirecting to Dashboard
                         router.push('/dashboard')

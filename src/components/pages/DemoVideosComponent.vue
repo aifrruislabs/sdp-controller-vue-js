@@ -1,13 +1,13 @@
 <template>
     <div>
-        About Page
+        Demo Videos
     </div>
 </template>
 
 <script>
 
-export default {
-    name: 'AboutComponent',
+    export default {
+    name: 'DemoVideosComponent',
 
     data() {
       
@@ -21,6 +21,7 @@ export default {
 
     }
 }
+
 
 </script>
 

@@ -1,13 +1,13 @@
 <template>
     <div>
-        About Page
+        Trust Scores
     </div>
 </template>
 
 <script>
 
 export default {
-    name: 'AboutComponent',
+    name: 'TrustScoresComponent',
 
     data() {
       

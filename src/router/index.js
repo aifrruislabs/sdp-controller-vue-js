@@ -11,13 +11,32 @@ import CreateNewAccountComponent from '@/components/auth/CreateNewAccountCompone
 
 import AboutComponent from '@/components/pages/AboutComponent.vue'
 import DashboardComponent from '@/components/pages/DashboardComponent.vue'
+import DemoVideosComponent from '@/components/pages/DemoVideosComponent.vue'
+
+import SDPIdenticationComponent from '@/components/configuration/SDPIdenticationComponent.vue'
+import SDPServicesComponent from '@/components/configuration/SDPServicesComponent.vue'
+import SDPServicesGatewaysComponent from '@/components/configuration/SDPServicesGatewaysComponent.vue'
+import SDPidServicesComponent from '@/components/configuration/SDPidServicesComponent.vue'
+
+import UsersManagerComponent from '@/components/pages/UsersManagerComponent.vue'
+import FaceRecognitionHistoryComponent from '@/components/pages/FaceRecognitionHistoryComponent.vue'
+import FaceRecognitionManageFacesComponent from '@/components/pages/FaceRecognitionManageFacesComponent.vue'
+
+import TrustScoresComponent from '@/components/pages/TrustScoresComponent.vue'
 
 const authMiddleware = (to, from, next) => {
-	
-	if (store.state.user.authToken.length == 0) {
-		return next('/auth/login')
+
+	console.log(store.state.user.authToken)
+
+	if (store.state.user.authToken != undefined) {
+		if ( store.state.user.authToken.length == 0 ) {
+			return next('/auth/login')
+		}else {
+			return next()
+		}
+		
 	}
-	
+
     return next();
 }
 
@@ -27,8 +46,35 @@ export default new Router({
 
 	routes: [
 
+		//Trust Scores
+		{ path: '/trust/scores', component: TrustScoresComponent, name: 'trust-scores' },
+
+		//Face Recognition Manage Faces
+		{ path: '/face/recognition/manage/faces', component: FaceRecognitionManageFacesComponent, name: 'face-recognition-manage-faces'},
+
+		//Face Recognition History
+		{ path: '/face/recognition/history', component: FaceRecognitionHistoryComponent, name: 'face-recognition-history'},
+
+		//Users Manager
+		{ path: '/users/manager', component: UsersManagerComponent, name: 'users-manager' },
+
+		//SDPID Services
+		{ path: '/sdpid/services', component: SDPidServicesComponent, name: 'sdpid-services' },
+
+		//Services Gateways
+		{ path: '/services/gateways', component: SDPServicesGatewaysComponent, name: 'sdp-services-gateways' },
+
+		//SDP Services
+		{ path: '/sdp/services', component: SDPServicesComponent, name: 'sd-services' },
+
+		//SDP Identifications Route
+		{ path: '/sdp/identifications', component: SDPIdenticationComponent, name: 'sdp-ids'},
+
 		//Dashboard Route
 		{ path: '/dashboard', component: DashboardComponent, name: 'dashboard', beforeEnter: authMiddleware },
+
+		//Demo Videos
+		{ path: '/demo/videos', component: DemoVideosComponent, name: 'demo-videos' },
 
         //Index Route
 		{ path: '/', component: IndexComponent, name: 'index'},

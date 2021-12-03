@@ -1,13 +1,14 @@
 <template>
     <div>
-        About Page
+        SDP Services Gateways
     </div>
 </template>
+
 
 <script>
 
 export default {
-    name: 'AboutComponent',
+    name: 'SDPServicesgatewaysComponent',
 
     data() {
       
@@ -23,7 +24,3 @@ export default {
 }
 
 </script>
-
-<style scoped>
-
-</style>

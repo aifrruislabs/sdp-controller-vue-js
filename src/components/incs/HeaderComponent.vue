@@ -17,31 +17,82 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li class="active">
-                        <router-link to="/">Home</router-link>
+                        <router-link to="/"><i class="fa fa-home" aria-hidden="true"></i>
+                            &nbsp;Home</router-link>
+                    </li>
+
+                    <li class="active" v-if="isAuthenticated">
+                        <router-link to="/users/manager"><i class="fa fa-users" aria-hidden="true"></i>
+                            &nbsp;Users Manager</router-link>
+                    </li>
+
+                    <li class="dropdown" v-if="isAuthenticated">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-cog" aria-hidden="true"></i>&nbsp;SDP Configuration <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><router-link to="/sdp/identifications" style="color: black;">SDP Identifications</router-link></li>
+                            <li role="separator" class="divider"></li>
+
+                            <li><router-link to="/sdp/services" style="color: black;">SDP Services</router-link></li>
+                            <li role="separator" class="divider"></li>
+
+                            <li><router-link to="/services/gateways" style="color: black;">Services Gateways</router-link></li>
+                            <li role="separator" class="divider"></li>
+
+                            <li><router-link to="/sdpid/services" style="color: black;">SDPID Services</router-link></li>
+                            <li role="separator" class="divider"></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown" v-if="isAuthenticated">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-cog" aria-hidden="true"></i>&nbsp;Face Recognition <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><router-link to="/face/recognition/manage/faces" style="color: black;">Manage Faces</router-link></li>
+                            <li role="separator" class="divider"></li>
+
+                            <li><router-link to="/face/recognition/history" style="color: black;">Recognitions History</router-link></li>
+                            <li role="separator" class="divider"></li>
+                        </ul>
+                    </li>
+
+                    <li class="active" v-if="isAuthenticated">
+                        <router-link to="/trust/scores"><i class="fa fa-balance-scale" aria-hidden="true"></i>
+                            &nbsp;Trust Scores</router-link>
+                    </li>
+
+                    <li class="active" v-if="!isAuthenticated">
+                        <router-link to="/demo/videos"><i class="fa fa-television" aria-hidden="true"></i>
+                            &nbsp;Demo Videos</router-link>
                     </li>
                     
-                    <li>
-                        <router-link to="/about">About</router-link>
+                    <li v-if="!isAuthenticated">
+                        <router-link to="/about"><i class="fa fa-spinner" aria-hidden="true"></i>
+                            &nbsp;About</router-link>
                     </li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right" v-if="!isAuthenticated">
                     <li>
-                        <router-link to="/auth/login">Login</router-link>
+                        <router-link to="/auth/login"><i class="fa fa-user-o" aria-hidden="true"></i>
+                        &nbsp;Login</router-link>
                     </li>
 
                     <li>
-                        <router-link to="/auth/create/new/account">Register</router-link>
+                        <router-link to="/auth/create/new/account"><i class="fa fa-user-plus" aria-hidden="true"></i>
+                        &nbsp;Register</router-link>
                     </li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right" v-else>
                     <li>
-                        <a href="#" v-text="welcomeText"></a>
+                        <a href="#"><i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;
+                            {{ welcomeText }}
+                        </a>
                     </li>
 
                     <li>
-                        <a @click="logout">Logout</a>
+                        <a href="#" @click="logout"><i class="fa fa-share" aria-hidden="true"></i>&nbsp;Logout</a>
                     </li>
                 </ul>
 
@@ -123,3 +174,10 @@ import router from './../../router/index'
     }
 
 </script>
+
+
+<style scoped>
+    .black-li {
+        color: black;
+    }
+</style>
