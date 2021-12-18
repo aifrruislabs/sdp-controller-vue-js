@@ -74,7 +74,7 @@ export default {
                 
                 if (this.password == this.password_verification) {
                         
-                    await axios.post(this.$store.state.baseApi + "/api/auth/register", {
+                    await axios.post(this.$store.state.baseApi + "/api/v1/auth/register", {
                         firstName: this.firstName,
                         lastName: this.lastName,
                         email: this.email,

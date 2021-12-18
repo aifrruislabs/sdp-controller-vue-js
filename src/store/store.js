@@ -10,12 +10,16 @@ export const store = new Vuex.Store({
 
 	state: {
 		
-		baseApi: 'https://sdpapi.aifrruislabs.com',
+		// baseApi: 'https://sdpapi.aifrruislabs.com',
 
-		// baseApi: 'http://localhost:4201',
+		baseApi: 'http://127.0.0.1:8000',
 
 		user: {
+			authId: '',
+
 			authToken: '',
+
+			level: '',
 
 			firstName: '',
 
@@ -29,6 +33,7 @@ export const store = new Vuex.Store({
 	mutations: {
 
 		authLogout: state => {
+			state.user.authId = ''
 			state.user.authToken = ''
 			state.user.firstName = ''
 			state.user.lastName = ''
@@ -38,6 +43,8 @@ export const store = new Vuex.Store({
 		//Set Token and Other Info
 		successAuth: (state, payload) => {
 
+			state.user.authId = payload.userId
+			state.user.level = payload.userLevel
 			state.user.authToken = payload.token
 
 		},
@@ -50,19 +57,29 @@ export const store = new Vuex.Store({
 
 	getters: {
 
+		//Get Auth Id
+		getAuthId: state => {
+			return state.user.authId
+		},
+
+		getUserLevel: state => {
+			return state.user.level
+		},
+
 		//Get Auth Token
 		getAuthToken: state => {
 			return state.user.authToken
 		},
-
 		
 		//Check if User is Authenticated
 		isAuthenticated: state => {
 			
-			if (state.user.authToken != '')
+			if (state.user.authToken.length != 0) {
 				return true
-			else
+			}else {
 				return false
+			}
+			
 		}
 
 	}

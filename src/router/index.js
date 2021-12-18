@@ -14,10 +14,10 @@ import DashboardComponent from '@/components/pages/DashboardComponent.vue'
 import DemoVideosComponent from '@/components/pages/DemoVideosComponent.vue'
 
 import SDPIdenticationComponent from '@/components/configuration/SDPIdenticationComponent.vue'
-import SDPServicesComponent from '@/components/configuration/SDPServicesComponent.vue'
-import SDPServicesGatewaysComponent from '@/components/configuration/SDPServicesGatewaysComponent.vue'
+import SDPGatewayComponent from '@/components/configuration/SDPGatewayComponent.vue'
 import SDPidServicesComponent from '@/components/configuration/SDPidServicesComponent.vue'
 
+import SDPServicesComponent from '@/components/admin/SDPServicesComponent.vue'
 import UsersManagerComponent from '@/components/pages/UsersManagerComponent.vue'
 import FaceRecognitionHistoryComponent from '@/components/pages/FaceRecognitionHistoryComponent.vue'
 import FaceRecognitionManageFacesComponent from '@/components/pages/FaceRecognitionManageFacesComponent.vue'
@@ -46,6 +46,9 @@ export default new Router({
 
 	routes: [
 
+		//Services
+		{ path: '/admin/services', component: SDPServicesComponent, name: 'sdp-services' },
+
 		//Trust Scores
 		{ path: '/trust/scores', component: TrustScoresComponent, name: 'trust-scores' },
 
@@ -61,8 +64,8 @@ export default new Router({
 		//SDPID Services
 		{ path: '/sdpid/services', component: SDPidServicesComponent, name: 'sdpid-services' },
 
-		//Services Gateways
-		{ path: '/services/gateways', component: SDPServicesGatewaysComponent, name: 'sdp-services-gateways' },
+		//SDP Gateway
+		{ path: '/sdp/gateway', component: SDPGatewayComponent, name: 'sdp-gateway' },
 
 		//SDP Services
 		{ path: '/sdp/services', component: SDPServicesComponent, name: 'sd-services' },

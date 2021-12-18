@@ -3,7 +3,12 @@ table {
 }
 
 table tr td {
-    padding-top: 15px;
+    padding: 10px;
+}
+
+.table tr td {
+    padding: 10px;
+    border: 1px solid #eee;
 }
 
 .center {

@@ -55,16 +55,18 @@ export default {
         
             if (this.email != "" && this.password != "") {
 
-                await axios.post(this.$store.state.baseApi + "/api/auth/login", {
+                await axios.post(this.$store.state.baseApi + "/api/v1/auth/login", {
                     email: this.email,
                     password: this.password
                 })
                 
                 .then( (response) => {
 
-                    const data = response.data
+                    const resData = response.data
 
-                    if (data['status'] == true) {
+                    const data = resData.data
+
+                    if (resData['status'] == true) {
 
                         this.email = this.password = ''
 
@@ -72,9 +74,11 @@ export default {
                         this.$store.state.user.lastName = data['lastName']
 
                         //Setting Token
-                        this.$store.commit('successAuth', { 'token' : data['authToken'] } )
-
-                        console.log(data);
+                        this.$store.commit('successAuth', { 
+                                                'token' : data['authToken'], 
+                                                'userId' : data['id'],
+                                                'userLevel' : data['level']
+                                            } )
 
                         //Redirecting to Dashboard
                         router.push('/dashboard')

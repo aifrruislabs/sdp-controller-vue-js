@@ -6,9 +6,9 @@
                 <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                    <span class="icon-bar" style="background-color: white;"></span>
+                    <span class="icon-bar" style="background-color: white;"></span>
+                    <span class="icon-bar" style="background-color: white;"></span>
                 </button>
                 <router-link class="navbar-brand" to="/">SDP Controller</router-link>
                 </div>
@@ -16,35 +16,31 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active">
+                    <li class="active" v-if="isAuthenticated">
+                        <router-link to="/dashboard"><i class="fa fa-home" aria-hidden="true"></i>
+                            &nbsp;Dashboard</router-link>
+                    </li>
+
+                    <li v-else>
                         <router-link to="/"><i class="fa fa-home" aria-hidden="true"></i>
                             &nbsp;Home</router-link>
                     </li>
 
-                    <li class="active" v-if="isAuthenticated">
-                        <router-link to="/users/manager"><i class="fa fa-users" aria-hidden="true"></i>
-                            &nbsp;Users Manager</router-link>
+                    <li class="active" v-if="isAuthenticated && getUserLevel == 1">
+                        <router-link to="/admin/services"><i class="fa fa-television" aria-hidden="true"></i>
+                            &nbsp;Services</router-link>
                     </li>
 
-                    <li class="dropdown" v-if="isAuthenticated">
+                    <li class="dropdown" v-if="isAuthenticated && getUserLevel == 2">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-cog" aria-hidden="true"></i>&nbsp;SDP Configuration <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><router-link to="/sdp/identifications" style="color: black;">SDP Identifications</router-link></li>
-                            <li role="separator" class="divider"></li>
-
-                            <li><router-link to="/sdp/services" style="color: black;">SDP Services</router-link></li>
-                            <li role="separator" class="divider"></li>
-
-                            <li><router-link to="/services/gateways" style="color: black;">Services Gateways</router-link></li>
-                            <li role="separator" class="divider"></li>
-
-                            <li><router-link to="/sdpid/services" style="color: black;">SDPID Services</router-link></li>
+                            <li><router-link to="/sdp/gateway" style="color: black;">SDP Gateways</router-link></li>
                             <li role="separator" class="divider"></li>
                         </ul>
                     </li>
 
-                    <li class="dropdown" v-if="isAuthenticated">
+                    <li class="dropdown" v-if="isAuthenticated && getUserLevel == 2">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-cog" aria-hidden="true"></i>&nbsp;Face Recognition <span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -56,10 +52,10 @@
                         </ul>
                     </li>
 
-                    <li class="active" v-if="isAuthenticated">
+                    <!-- <li class="active" v-if="isAuthenticated">
                         <router-link to="/trust/scores"><i class="fa fa-balance-scale" aria-hidden="true"></i>
                             &nbsp;Trust Scores</router-link>
-                    </li>
+                    </li> -->
 
                     <li class="active" v-if="!isAuthenticated">
                         <router-link to="/demo/videos"><i class="fa fa-television" aria-hidden="true"></i>
@@ -122,15 +118,18 @@ import router from './../../router/index'
         methods: {
 
             async logout() {
-                await axios.post(this.$store.state.baseApi + "/api/auth/logout", {
+                await axios.post(this.$store.state.baseApi + "/api/v1/auth/logout", {
                     email: this.email
                 }, {
                     headers: {
-                        'Authorization': 'token ' + this.$store.getters.getAuthToken
+                        'userId': this.$store.getters.getAuthId,
+                        'authToken': this.$store.getters.getAuthToken
                     }
                 }).then( (response) => {
 
-                    const data = response.data
+                    const resData = response.data
+
+                    const data = resData.data;
 
                     if (data['status'] == true) {
                         //Logged Out Success
@@ -166,7 +165,7 @@ import router from './../../router/index'
     
         computed: {
             ...mapGetters(
-                ['isAuthenticated']
+                ['isAuthenticated', 'getUserLevel']
             )
         },
 
