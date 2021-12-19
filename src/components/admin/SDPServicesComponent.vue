@@ -28,11 +28,12 @@
                 <td>
                     <div style="width: 100%;">
                         <div class="float-left">
-                            <i class="fa fa-pencil" style="font-size: 24px; color: green;" aria-hidden="true"></i>
+                            <i class="fa fa-pencil" @click="setEditData(service.id, 
+                            service.serviceTitle, service.serviceInfo, service.servicePort)" data-toggle="modal" data-target="#editServiceModal" style="font-size: 24px; color: green;" aria-hidden="true"></i>
                         </div>
 
                         <div class="float-right">
-                            <i class="fa fa-times" style="font-size: 24px; color: red;" aria-hidden="true"></i>
+                            <i class="fa fa-times" @click="deleteService(service.id)" style="font-size: 24px; color: red;" aria-hidden="true"></i>
                         </div>
                     </div>
                 </td>
@@ -81,13 +82,52 @@
         </div>
         </div>
 
+        <!-- Edit Service Modal -->
+        <div class="modal fade" id="editServiceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Edit Service</h4>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <td>Service Title</td>
+                        <td><input type="text" v-model="serviceTitle" class="form-control"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Service Info</td>
+                        <td><input type="text" v-model="serviceInfo" class="form-control"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Service Port</td>
+                        <td><input type="text" v-model="servicePort" class="form-control"></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button class="btn btn-primary form-control" @click="updateService()">Update Service</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                
+            </div>
+            </div>
+        </div>
+        </div>
+
     </div>
 </template>
 
 
 <script>
 
-import $ from 'jquery'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
@@ -97,6 +137,8 @@ export default {
     data() {
       
         return {
+
+            serviceId: '',
 
             serviceTitle: '',
 
@@ -111,6 +153,103 @@ export default {
     },
 
     methods: {
+
+        async updateService() {
+
+            await axios.patch(this.$store.state.baseApi + "/api/v1/admin/service/update",
+                {
+                    serviceId: this.serviceId,
+                    serviceTitle: this.serviceTitle,
+                    serviceInfo: this.serviceInfo,
+                    servicePort: this.servicePort
+                },
+
+                { 
+                headers : {
+                    'Content-Type': 'application/json',
+                    userId: this.$store.getters.getAuthId,
+                    authToken: this.$store.getters.getAuthToken
+                }
+
+            })
+            
+            .then( (response) => {
+
+                const resData = response.data
+
+                if (resData['status'] == true) {
+                    Swal.fire(
+                            'Success!',
+                            'Service was Updated Successfully',
+                            'success'
+                            ).then(function () {
+                                window.location.reload()
+                            });
+                }else {
+                    Swal.fire(
+                            'Error!',
+                            'Failed to Update Service. Please Try Again Later',
+                            'error'
+                            )
+                }
+
+            })
+
+        },
+
+        setEditData(serviceId, serviceTitle, serviceInfo, servicePort) {
+            this.serviceId = serviceId
+            this.serviceTitle = serviceTitle
+            this.serviceInfo = serviceInfo
+            this.servicePort = servicePort
+        },
+
+        deleteService(serviceId) {
+            
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {                      
+                        axios.delete(this.$store.state.baseApi + "/api/v1/admin/service/delete/"+serviceId,
+                            { 
+                            headers : {
+                                'Content-Type': 'application/json',
+                                userId: this.$store.getters.getAuthId,
+                                authToken: this.$store.getters.getAuthToken
+                            }
+
+                        })
+                        
+                        .then( (response) => {
+
+                            const resData = response.data
+
+                            if (resData['status'] == true) {
+                                Swal.fire(
+                                    'Success!',
+                                    'Service was Deleted Successfully',
+                                    'success'
+                                    ).then(function () {
+                                        window.location.reload()
+                                    });
+                            }else {
+                                Swal.fire(
+                                    'Error!',
+                                    'Failed to delete Service. Please Try Again Later',
+                                    'error'
+                                    )
+                            }
+
+                        })
+                    }
+                })
+        },
 
         async pullAllServices() {
 
@@ -160,12 +299,13 @@ export default {
                     this.services.splice(resData.data)
 
                     if (resData['status'] == true) {
-                        $("#createNewServiceModal").css({'display': 'none'})
-
+                        
                         Swal.fire({
                             title: 'Success!',
                             text: 'Service was Added Successfully.',
                             icon: 'success',
+                        }).then(function () {
+                            window.location.reload()
                         })
                     }else {
                         Swal.fire({
