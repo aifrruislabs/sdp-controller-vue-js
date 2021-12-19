@@ -39,17 +39,23 @@
                         <td>{{ gateway.gatewayAccessToken}}</td>
 
                         <td>
-                            <button class="btn btn-success">Services (0)</button>
+                            <button class="btn btn-success"
+                            data-toggle="modal" data-target="#populateGatewayServicesModal" 
+                            @click="populateServicesonModal(gateway.id)">Services</button>
                         </td>
                         
                         <td>
                             <div style="width: 100%;">
                                 <div class="float-left">
-                                    <i class="fa fa-pencil" style="font-size: 24px; color: green;" aria-hidden="true"></i>
+                                    <i class="fa fa-pencil" 
+                                    data-toggle="modal" data-target="#editGatewayInfoModal"
+                                    @click="editGatewayInfo(gateway.id, gateway.gatewayTitle, gateway.gatewayInfo,
+                                    gateway.gatewayIP, gateway.gatewayAccessToken)" style="font-size: 24px; color: green;" aria-hidden="true"></i>
                                 </div>
 
                                 <div class="float-right">
-                                    <i class="fa fa-times" style="font-size: 24px; color: red;" aria-hidden="true"></i>
+                                    <i class="fa fa-times" 
+                                    @click="deleteGatewayInfo(gateway.id)" style="font-size: 24px; color: red;" aria-hidden="true"></i>
                                 </div>
                             </div>
                         </td>
@@ -60,6 +66,118 @@
 
         </div>
                 
+
+        <!-- Edit Gateway Info Modal -->
+        <div class="modal fade" id="editGatewayInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Edit Gateway</h4>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <td>Gateway Title</td>
+                        <td><input type="text" v-model="gatewayTitle" class="form-control"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Gateway Info</td>
+                        <td><input type="text" v-model="gatewayInfo" class="form-control"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Gateway IP</td>
+                        <td><input type="text" v-model="gatewayIP" class="form-control"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Gateway Token</td>
+                        <td><input type="text" disabled="true" v-model="gatewayAccessToken" class="form-control"></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button @click="updateGateway()" class="btn btn-primary form-control">Update Gateway</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+            </div>
+        </div>
+        </div>
+
+
+        <!-- Populate Gateway Services Modal -->
+        <div class="modal fade" id="populateGatewayServicesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Manage Gateway Services</h4>
+            </div>
+            <div class="modal-body">
+                <h3>Gateway Services</h3>
+                <hr/>
+
+                <table class="table">
+                    <tr>
+                        <td>ID</td>
+                        <td>Service Title</td>
+                        <td>Service Info</td>
+                        <td>Service Port</td>
+                        <td>Actions</td>
+                    </tr>
+
+                    <tr v-for="(service, id) in gatewayServices" :key="service.id">
+                        <td>{{ id + 1}}</td>
+                        <td>{{ service.serviceTitle }}</td>
+                        <td>{{ service.serviceInfo }}</td>
+                        <td>{{ service.servicePort }}</td>
+                        <td>
+                            <div style="width: 100%;">
+                                <i class="fa fa-times" @click="deleteGatewayService(service.id)" style="font-size: 24px; color: red;" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+
+                <h3>Other Services</h3>
+                <table class="table">
+                    <tr>
+                        <td>ID</td>
+                        <td>Service Title</td>
+                        <td>Service Info</td>
+                        <td>Service Port</td>
+                        <td>Actions</td>
+                    </tr>
+
+                    <tr v-for="(service, id) in otherGatewayServices" :key="service.id">
+                        <td>{{ id + 1}}</td>
+                        <td>{{ service.serviceTitle }}</td>
+                        <td>{{ service.serviceInfo }}</td>
+                        <td>{{ service.servicePort }}</td>
+                        <td>
+                            <div style="width: 100%;">
+                                <i class="fa fa-plus" @click="addThisServiceToGateway(service.id)" style="font-size: 24px; color: green;" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+            </div>
+        </div>
+        </div>
+
+
+
 
         <!-- Add New Gateway Modal -->
         <div class="modal fade" id="addNewgatewayModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -112,7 +230,6 @@
 
 <script>
 
-import $ from 'jquery'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
@@ -122,16 +239,130 @@ export default {
     data() {
       
         return {
-            gatewayTitle : '',
-            gatewayInfo : '',
-            gatewayIP : '',
+            gatewayServiceSelectedId: '',
 
-            gatewaysList: []
+            gatewayId: '',
+            gatewayTitle: '',
+            gatewayInfo: '',
+            gatewayIP: '',
+            gatewayAccessToken: '',
+
+            gatewaysList: [],
+
+            gatewayServices : [],
+            otherGatewayServices : []
+
         }
 
     },
 
     methods: {
+
+        async deleteGatewayService(serviceId) {
+
+            await axios.post(this.$store.state.baseApi + "/api/v1/user/gateway/delete/service", 
+                {
+                    'serviceId' : serviceId,
+                    'gatewayId' : this.gatewayServiceSelectedId
+                },
+
+                { 
+                    headers : {
+                        'Content-Type': 'application/json',
+                        userId: this.$store.getters.getAuthId,
+                        authToken: this.$store.getters.getAuthToken
+                    }
+
+                })
+                
+                .then( (response) => {
+
+                    const resData = response.data
+
+                    if (resData['status'] == true) {
+
+                        this.populateServicesonModal(this.gatewayServiceSelectedId)
+
+                    }
+
+                });
+
+
+        },
+
+        async addThisServiceToGateway(serviceId) {
+
+            axios.post(this.$store.state.baseApi + "/api/v1/user/gateway/add/service", 
+                {
+                    'serviceId' : serviceId,
+                    'gatewayId' : this.gatewayServiceSelectedId
+                },
+
+                { 
+                    headers : {
+                        'Content-Type': 'application/json',
+                        userId: this.$store.getters.getAuthId,
+                        authToken: this.$store.getters.getAuthToken
+                    }
+
+                })
+                
+                .then( (response) => {
+
+                    const resData = response.data
+
+                    if (resData['status'] == true) {
+
+                        this.populateServicesonModal(this.gatewayServiceSelectedId)
+
+                    }
+
+                });
+
+        },
+
+        updateGateway() {
+
+            axios.patch(this.$store.state.baseApi + "/api/v1/user/gateway/update", 
+                {
+                    'gatewayId' : this.gatewayId,
+                    'gatewayTitle' : this.gatewayTitle,
+                    'gatewayInfo' : this.gatewayInfo,
+                    'gatewayIP' : this.gatewayIP
+                },
+
+                { 
+                    headers : {
+                        'Content-Type': 'application/json',
+                        userId: this.$store.getters.getAuthId,
+                        authToken: this.$store.getters.getAuthToken
+                    }
+
+                })
+                
+                .then( (response) => {
+
+                    const resData = response.data
+
+                    if (resData['status'] == true) {
+                        Swal.fire(
+                            'Success!',
+                            'Gateway was Updated Successfully',
+                            'success'
+                            ).then(function () {
+                                window.location.reload()
+                            })
+                    }else {
+                        Swal.fire(
+                            'Error!',
+                            'Gateway was not Updated Successfully',
+                            'error'
+                            )
+                    }
+
+                });
+
+        },
 
         pullGatewaysList() {
 
@@ -156,6 +387,92 @@ export default {
 
         },
 
+        //Delete Gateway Info
+        async deleteGatewayInfo(gatewayId) {
+            
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {                      
+                        axios.delete(this.$store.state.baseApi + "/api/v1/user/gateway/delete/"+gatewayId,
+                            { 
+                            headers : {
+                                'Content-Type': 'application/json',
+                                userId: this.$store.getters.getAuthId,
+                                authToken: this.$store.getters.getAuthToken
+                            }
+
+                        })
+                        
+                        .then( (response) => {
+
+                            const resData = response.data
+
+                            if (resData['status'] == true) {
+                                Swal.fire(
+                                    'Success!',
+                                    'Gateway was Deleted Successfully',
+                                    'success'
+                                    ).then(function () {
+                                        window.location.reload()
+                                    });
+                            }else {
+                                Swal.fire(
+                                    'Error!',
+                                    'Failed to delete Gateway. Please Try Again Later',
+                                    'error'
+                                    )
+                            }
+
+                        })
+                    }
+                })
+
+        },
+
+        //Edit Gateway Info
+        async editGatewayInfo(gatewayId, gatewayTitle, gatewayInfo, gatewayIP, gatewayAccessToken) {
+            this.gatewayId = gatewayId
+            this.gatewayTitle = gatewayTitle
+            this.gatewayInfo = gatewayInfo
+            this.gatewayIP = gatewayIP
+            this.gatewayAccessToken = gatewayAccessToken
+        },
+
+        //Populate Services on Gateway Services Modal
+        async populateServicesonModal(gatewayId) {
+
+            this.gatewayServiceSelectedId = gatewayId
+
+            //Get Gateway Services
+            await axios.get(this.$store.state.baseApi + "/api/v1/user/get/gateway/service/"+gatewayId, { 
+                
+                    headers : {
+                        'Content-Type': 'application/json',
+                        userId: this.$store.getters.getAuthId,
+                        authToken: this.$store.getters.getAuthToken
+                    }
+
+            })
+            
+            .then( (response) => {
+
+                const resData = response.data
+
+                this.gatewayServices = resData['gatewayServices']
+                this.otherGatewayServices = resData['otherGatewayServices']
+
+            })
+
+        },
+
+        //Add New Gateway
         async addNewgateway() {
             
             if (this.gatewayTitle != "" && this.gatewayIP != "") {
@@ -183,14 +500,14 @@ export default {
 
                     if (resData['status'] == true) {
 
-                        $("#addNewgatewayModal").modal('dismiss');
-
                         this.gatewayTitle = this.gatewayInfo = this.gatewayIP = ""
 
                         Swal.fire({
                                 title: 'Success!',
                                 text: 'Gateway was Added Successfully',
                                 icon: 'success',
+                            }).then(function () {
+                                window.location.reload()
                             })
                     }else {
                         Swal.fire({
