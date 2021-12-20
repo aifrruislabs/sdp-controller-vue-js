@@ -18,6 +18,7 @@
                 <td>Service Title</td>
                 <td>Service Info</td>
                 <td>Service Port</td>
+                <td style="width: 120px;">Service Score</td>
                 <td>Actions</td>
             </tr>
 
@@ -26,11 +27,12 @@
                 <td>{{ service.serviceTitle }}</td>
                 <td>{{ service.serviceInfo }}</td>
                 <td>{{ service.servicePort }}</td>
+                <td>{{ service.serviceScore }}%</td>
                 <td>
                     <div style="width: 100%;">
                         <div class="float-left">
                             <i class="fa fa-pencil" @click="setEditData(service.id, 
-                            service.serviceTitle, service.serviceInfo, service.servicePort)" data-toggle="modal" data-target="#editServiceModal" style="font-size: 24px; color: green;" aria-hidden="true"></i>
+                            service.serviceTitle, service.serviceInfo, service.servicePort, service.serviceScore)" data-toggle="modal" data-target="#editServiceModal" style="font-size: 24px; color: green;" aria-hidden="true"></i>
                         </div>
 
                         <div class="float-right">
@@ -65,6 +67,11 @@
                     <tr>
                         <td>Service Port</td>
                         <td><input type="number" class="form-control" v-model="servicePort"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Service Score</td>
+                        <td><input type="number" class="form-control" v-model="serviceScore"></td>
                     </tr>
 
                     <tr>
@@ -109,6 +116,11 @@
                     </tr>
 
                     <tr>
+                        <td>Service Score</td>
+                        <td><input type="text" v-model="serviceScore" class="form-control"></td>
+                    </tr>
+
+                    <tr>
                         <td></td>
                         <td>
                             <button class="btn btn-primary form-control" @click="updateService()">Update Service</button>
@@ -147,6 +159,8 @@ export default {
 
             servicePort: '',
 
+            serviceScore: '',
+
             services: []
 
         }
@@ -162,7 +176,8 @@ export default {
                     serviceId: this.serviceId,
                     serviceTitle: this.serviceTitle,
                     serviceInfo: this.serviceInfo,
-                    servicePort: this.servicePort
+                    servicePort: this.servicePort,
+                    serviceScore: this.serviceScore
                 },
 
                 { 
@@ -198,11 +213,12 @@ export default {
 
         },
 
-        setEditData(serviceId, serviceTitle, serviceInfo, servicePort) {
+        setEditData(serviceId, serviceTitle, serviceInfo, servicePort, serviceScore) {
             this.serviceId = serviceId
             this.serviceTitle = serviceTitle
             this.serviceInfo = serviceInfo
             this.servicePort = servicePort
+            this.serviceScore = serviceScore 
         },
 
         deleteService(serviceId) {
@@ -283,6 +299,7 @@ export default {
                         serviceTitle: this.serviceTitle,
                         serviceInfo: this.serviceInfo,
                         servicePort: this.servicePort,
+                        serviceScore: this.serviceScore
                     }, { 
                     headers : {
                         'Content-Type': 'application/json',

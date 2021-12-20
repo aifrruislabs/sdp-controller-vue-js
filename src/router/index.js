@@ -13,9 +13,8 @@ import AboutComponent from '@/components/pages/AboutComponent.vue'
 import DashboardComponent from '@/components/pages/DashboardComponent.vue'
 import DemoVideosComponent from '@/components/pages/DemoVideosComponent.vue'
 
-import SDPIdenticationComponent from '@/components/configuration/SDPIdenticationComponent.vue'
+import SDPClientsComponent from '@/components/configuration/SDPClientsComponent.vue'
 import SDPGatewayComponent from '@/components/configuration/SDPGatewayComponent.vue'
-import SDPidServicesComponent from '@/components/configuration/SDPidServicesComponent.vue'
 
 import SDPServicesComponent from '@/components/admin/SDPServicesComponent.vue'
 import UsersManagerComponent from '@/components/pages/UsersManagerComponent.vue'
@@ -46,6 +45,9 @@ export default new Router({
 
 	routes: [
 
+		//Clients
+		{ path: '/sdp/clients', component: SDPClientsComponent, name: 'sdp-clients' },
+
 		//Services
 		{ path: '/admin/services', component: SDPServicesComponent, name: 'sdp-services' },
 
@@ -61,17 +63,11 @@ export default new Router({
 		//Users Manager
 		{ path: '/users/manager', component: UsersManagerComponent, name: 'users-manager' },
 
-		//SDPID Services
-		{ path: '/sdpid/services', component: SDPidServicesComponent, name: 'sdpid-services' },
-
 		//SDP Gateway
 		{ path: '/sdp/gateway', component: SDPGatewayComponent, name: 'sdp-gateway' },
 
 		//SDP Services
 		{ path: '/sdp/services', component: SDPServicesComponent, name: 'sd-services' },
-
-		//SDP Identifications Route
-		{ path: '/sdp/identifications', component: SDPIdenticationComponent, name: 'sdp-ids'},
 
 		//Dashboard Route
 		{ path: '/dashboard', component: DashboardComponent, name: 'dashboard', beforeEnter: authMiddleware },

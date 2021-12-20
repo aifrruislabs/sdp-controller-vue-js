@@ -37,6 +37,9 @@
                         <ul class="dropdown-menu">
                             <li><router-link to="/sdp/gateway" style="color: black;">SDP Gateways</router-link></li>
                             <li role="separator" class="divider"></li>
+
+                            <li><router-link to="/sdp/clients" style="color: black;">SDP Clients</router-link></li>
+                            <li role="separator" class="divider"></li>
                         </ul>
                     </li>
 

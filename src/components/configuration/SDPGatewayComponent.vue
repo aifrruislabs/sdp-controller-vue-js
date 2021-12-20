@@ -7,7 +7,7 @@
             </div>
 
             <div class="col-md-4" >
-                <div class="right" style="margin-top: 2%;">
+                <div class="right">
                     <i class="fa fa-plus" style="font-size: 20px;" 
                         aria-hidden="true" data-toggle="modal" data-target="#addNewgatewayModal"></i>
                 </div>
