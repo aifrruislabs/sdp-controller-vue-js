@@ -5,6 +5,9 @@ import { store } from '../store/store'
 Vue.use(Router)
 
 //Import Components
+import TrustScoreWeightComponent from '@/components/configuration/TrustScoreWeightComponent.vue'
+import TrustScorePolicyComponent from '@/components/configuration/TrustScorePolicyComponent.vue'
+
 import IndexComponent from '@/components/pages/IndexComponent.vue'
 import LoginComponent from '@/components/auth/LoginComponent.vue'
 import CreateNewAccountComponent from '@/components/auth/CreateNewAccountComponent.vue'
@@ -18,7 +21,6 @@ import SDPGatewayComponent from '@/components/configuration/SDPGatewayComponent.
 
 import SDPServicesComponent from '@/components/admin/SDPServicesComponent.vue'
 import UsersManagerComponent from '@/components/pages/UsersManagerComponent.vue'
-import FaceRecognitionHistoryComponent from '@/components/pages/FaceRecognitionHistoryComponent.vue'
 import FaceRecognitionManageFacesComponent from '@/components/pages/FaceRecognitionManageFacesComponent.vue'
 
 import TrustScoresComponent from '@/components/pages/TrustScoresComponent.vue'
@@ -45,6 +47,12 @@ export default new Router({
 
 	routes: [
 
+		//Trust Score Policies
+		{ path: '/trust/score/policies', component: TrustScorePolicyComponent, name: 'trust-score-policies' },
+
+		//Trust Score Weights
+		{ path: '/trust/score/weights', component: TrustScoreWeightComponent, name: 'trust-score-weights' },
+
 		//Clients
 		{ path: '/sdp/clients', component: SDPClientsComponent, name: 'sdp-clients' },
 
@@ -56,9 +64,6 @@ export default new Router({
 
 		//Face Recognition Manage Faces
 		{ path: '/face/recognition/manage/faces', component: FaceRecognitionManageFacesComponent, name: 'face-recognition-manage-faces'},
-
-		//Face Recognition History
-		{ path: '/face/recognition/history', component: FaceRecognitionHistoryComponent, name: 'face-recognition-history'},
 
 		//Users Manager
 		{ path: '/users/manager', component: UsersManagerComponent, name: 'users-manager' },

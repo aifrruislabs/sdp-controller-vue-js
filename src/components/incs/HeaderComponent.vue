@@ -40,18 +40,28 @@
 
                             <li><router-link to="/sdp/clients" style="color: black;">SDP Clients</router-link></li>
                             <li role="separator" class="divider"></li>
+
+                            <li><router-link to="/trust/score/weights" style="color: black;">Trust Score Weights</router-link></li>
+                            <li role="separator" class="divider"></li>
+
+                            <li><router-link to="/trust/score/policies" style="color: black;">Trust Score Policies</router-link></li>
+                            <li role="separator" class="divider"></li>
                         </ul>
                     </li>
 
                     <li class="dropdown" v-if="isAuthenticated && getUserLevel == 2">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-cog" aria-hidden="true"></i>&nbsp;Face Recognition <span class="caret"></span></a>
+                            <i class="fa fa-cog" aria-hidden="true"></i>&nbsp;Score Metrics <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><router-link to="/face/recognition/manage/faces" style="color: black;">Manage Faces</router-link></li>
+                            <li><router-link to="/face/recognition/manage/faces" style="color: black;">Face Recognition</router-link></li>
                             <li role="separator" class="divider"></li>
 
-                            <li><router-link to="/face/recognition/history" style="color: black;">Recognitions History</router-link></li>
+                            <li><router-link to="/face/recognition/manage/faces" style="color: black;">Mac Addresses</router-link></li>
                             <li role="separator" class="divider"></li>
+
+                            <li><router-link to="/face/recognition/manage/faces" style="color: black;">Geo Location</router-link></li>
+                            <li role="separator" class="divider"></li>
+
                         </ul>
                     </li>
 
