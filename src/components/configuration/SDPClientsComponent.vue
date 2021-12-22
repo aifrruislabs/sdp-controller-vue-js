@@ -23,7 +23,6 @@
                 <td>Last Name</td>
                 <td>Client ID</td>
                 <td>Trust Score</td>
-                <td>Total Access Score</td>
                 <td>Username</td>
                 <td>Service Access</td>
                 <td>Actions</td>
@@ -36,7 +35,6 @@
                 <td>{{ client.lastName }}</td>
                 <td>{{ client.clientId }}</td>
                 <td>{{ client.totalTrustScore }} %</td>
-                <td>{{ client.totalAccessScore }} %</td>
                 <td>{{ client.username }}</td>
                 <td>
                     <button class="btn btn-primary form-control" @click="pullGatewayServicesList(client.id)"
