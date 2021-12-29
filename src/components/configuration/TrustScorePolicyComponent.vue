@@ -37,7 +37,9 @@
                             </div>
 
                             <div class="float-right">
-                                <i class="fa fa-times" style="font-size: 24px; color: red;" aria-hidden="true"></i>
+                                <i class="fa fa-times" 
+                                 @click="deleteTrustScorePolicy(trustScorePolicy.id)"
+                                 style="font-size: 24px; color: red;" aria-hidden="true"></i>
                             </div>
                         </div>
                     </td>
@@ -128,6 +130,61 @@ export default {
     },
 
     methods: {
+
+        async deleteTrustScorePolicy(trustScorePolicyId) {
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    
+                    axios.post(this.$store.state.baseApi + "/api/v1/user/delete/trust/policy", {
+
+                        'trustScorePolicyId': trustScorePolicyId
+
+                        }, { 
+                            headers : {
+                                'Content-Type': 'application/json',
+                                userId: this.$store.getters.getAuthId,
+                                authToken: this.$store.getters.getAuthToken
+                            }
+
+                        })
+                        
+                        .then( (response) => {
+
+                            const resData = response.data
+
+                            const jsonData = JSON.parse(JSON.stringify(resData))
+
+                            if (jsonData['status'] == true) {
+                                Swal.fire(
+                                    'Success!',
+                                    'Trust Score Policy was Deleted Successfully',
+                                    'success'
+                                    ).then(function () {
+                                        window.location.reload()
+                                    })
+                            }else {
+                                Swal.fire(
+                                    'Error!',
+                                    'Failed to Delete Trust Score Policy. Please Try Again Later',
+                                    'error'
+                                    )
+                            }
+                        })
+            
+
+                }
+                })
+
+        },
 
         async pullTrustScoreFactors() {
 

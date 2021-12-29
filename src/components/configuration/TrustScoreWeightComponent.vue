@@ -35,7 +35,9 @@
                             </div>
 
                             <div class="float-right">
-                                <i class="fa fa-times" style="font-size: 24px; color: red;" aria-hidden="true"></i>
+                                <i class="fa fa-times" 
+                                @click="deleteTrustScoreWeight(trustScoreWeight.id)"
+                                style="font-size: 24px; color: red;" aria-hidden="true"></i>
                             </div>
                         </div>
 
@@ -117,6 +119,61 @@ export default {
 
     methods: {
 
+        async deleteTrustScoreWeight(trustScoreWeightId) {
+                Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                
+                if (result.isConfirmed) {
+                            
+                    axios.post(this.$store.state.baseApi + "/api/v1/user/delete/trust/score/weight", {
+
+                        'trustScoreWeightId': trustScoreWeightId
+
+                        }, { 
+                            headers : {
+                                'Content-Type': 'application/json',
+                                userId: this.$store.getters.getAuthId,
+                                authToken: this.$store.getters.getAuthToken
+                            }
+
+                        })
+                        
+                        .then( (response) => {
+
+                            const resData = response.data
+
+                            const jsonData = JSON.parse(JSON.stringify(resData))
+
+                            if (jsonData['status'] == true) {
+                                Swal.fire(
+                                    'Success!',
+                                    'Trust Score Weight was Deleted Successfully',
+                                    'success'
+                                    ).then(function () {
+                                        window.location.reload()
+                                    })
+                            }else {
+                                Swal.fire(
+                                    'Error!',
+                                    'Failed to Delete Trust Score Weight. Please Try Again Later',
+                                    'error'
+                                    )
+                            }
+
+                        })
+                        
+
+                }
+            })
+        },
+
         async pullTrustScoreFactorsWeights() {
 
             axios.get(this.$store.state.baseApi + "/api/v1/user/get/all/trust/score/factor/weights",
@@ -136,7 +193,6 @@ export default {
                     this.trustScoreWeightsList = resData.data
 
                 })
-
 
         },
 

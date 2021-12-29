@@ -56,10 +56,10 @@
                             <li><router-link to="/face/recognition/manage/faces" style="color: black;">Face Recognition</router-link></li>
                             <li role="separator" class="divider"></li>
 
-                            <li><router-link to="/face/recognition/manage/faces" style="color: black;">Mac Addresses</router-link></li>
+                            <li><router-link to="/manage/clients/mac/address" style="color: black;">Mac Addresses</router-link></li>
                             <li role="separator" class="divider"></li>
 
-                            <li><router-link to="/face/recognition/manage/faces" style="color: black;">Geo Location</router-link></li>
+                            <li><router-link to="/manage/clients/geo/location" style="color: black;">Geo Location</router-link></li>
                             <li role="separator" class="divider"></li>
 
                         </ul>

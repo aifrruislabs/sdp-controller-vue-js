@@ -390,23 +390,23 @@ export default {
 
         async getClients() {
 
-                await axios.get(this.$store.state.baseApi + "/api/v1/user/sdp/get/all/clients", { 
-                    
-                        headers : {
-                            'Content-Type': 'application/json',
-                            userId: this.$store.getters.getAuthId,
-                            authToken: this.$store.getters.getAuthToken
-                        }
-
-                })
+            await axios.get(this.$store.state.baseApi + "/api/v1/user/sdp/get/all/clients", { 
                 
-                .then( (response) => {
+                    headers : {
+                        'Content-Type': 'application/json',
+                        userId: this.$store.getters.getAuthId,
+                        authToken: this.$store.getters.getAuthToken
+                    }
 
-                    const resData = response.data
+            })
+            
+            .then( (response) => {
 
-                    this.clients = resData.data
+                const resData = response.data
 
-                })
+                this.clients = resData.data
+
+            })
 
         },
 

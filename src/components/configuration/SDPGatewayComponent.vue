@@ -286,8 +286,6 @@ export default {
                     }
 
                 });
-
-
         },
 
         async addThisServiceToGateway(serviceId) {

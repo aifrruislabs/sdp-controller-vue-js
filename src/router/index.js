@@ -16,6 +16,9 @@ import AboutComponent from '@/components/pages/AboutComponent.vue'
 import DashboardComponent from '@/components/pages/DashboardComponent.vue'
 import DemoVideosComponent from '@/components/pages/DemoVideosComponent.vue'
 
+import ManageClientGeoLocationComponent from '@/components/configuration/ManageClientGeoLocationComponent.vue'
+import ManageClientMacAddressComponent from '@/components/configuration/ManageClientMacAddressComponent.vue'
+
 import SDPClientsComponent from '@/components/configuration/SDPClientsComponent.vue'
 import SDPGatewayComponent from '@/components/configuration/SDPGatewayComponent.vue'
 
@@ -46,6 +49,12 @@ export default new Router({
 	mode: 'history',
 
 	routes: [
+
+		//Manage Client Geo Location
+		{ path: '/manage/clients/geo/location', component: ManageClientGeoLocationComponent, name: 'manage-client-geo-location' },
+
+		//Manage Clients Mac Address
+		{ path: '/manage/clients/mac/address', component: ManageClientMacAddressComponent, name: 'manage-client-mac-addr'},
 
 		//Trust Score Policies
 		{ path: '/trust/score/policies', component: TrustScorePolicyComponent, name: 'trust-score-policies' },
