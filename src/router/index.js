@@ -46,7 +46,8 @@ const authMiddleware = (to, from, next) => {
 
 //Router
 export default new Router({
-	mode: 'history',
+	
+	mode: 'hash',
 
 	routes: [
 
