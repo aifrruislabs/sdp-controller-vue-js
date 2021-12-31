@@ -40,9 +40,9 @@
                         <td style="width: 150px;">
                             
                                 {
-                                "controller_ip": "178.62.76.239",
+                                "controller_uri": "http://sdpapi.aifrruislabs.com",
 
-                                "gatewayId": "{{ gateway.id }}",
+                                "gateway_id": "{{ gateway.id }}",
 
                                 "gateway_user_id": "{{ gUserId }}",
 
