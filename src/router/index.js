@@ -16,6 +16,7 @@ import AboutComponent from '@/components/pages/AboutComponent.vue'
 import DashboardComponent from '@/components/pages/DashboardComponent.vue'
 import DemoVideosComponent from '@/components/pages/DemoVideosComponent.vue'
 
+import GatewayStatsComponent from '@/components/configuration/GatewayStatsComponent.vue'
 import ManageClientGeoLocationComponent from '@/components/configuration/ManageClientGeoLocationComponent.vue'
 import ManageClientMacAddressComponent from '@/components/configuration/ManageClientMacAddressComponent.vue'
 
@@ -50,6 +51,9 @@ export default new Router({
 	mode: 'hash',
 
 	routes: [
+
+		//View Gateway Statistics
+		{ path: '/gateway/view/statistics', component: GatewayStatsComponent, name: 'gateway-stats' },
 
 		//Manage Client Geo Location
 		{ path: '/manage/clients/geo/location', component: ManageClientGeoLocationComponent, name: 'manage-client-geo-location' },

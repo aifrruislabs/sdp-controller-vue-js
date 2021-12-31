@@ -25,7 +25,8 @@
                         <td>Gateway Title</td>
                         <td>Gateway Info</td>
                         <td>Gateway IP</td>
-                        <td>Access Token</td>
+                        <td>Gateway Config</td>
+                        <td>Gateway Statistics</td>
                         <td>Gateway Services</td>
                         <td>Actions</td>
                     </tr>
@@ -36,9 +37,28 @@
                         <td>{{ gateway.gatewayInfo }}</td>
                         <td>{{ gateway.gatewayIP }}</td>
 
-                        <td>{{ gateway.gatewayAccessToken}}</td>
+                        <td style="width: 150px;">
+                            
+                                {
+                                "controller_ip": "178.62.76.239",
 
-                        <td>
+                                "gatewayId": "{{ gateway.id }}",
+
+                                "gateway_user_id": "{{ gUserId }}",
+
+                                "gateway_iface": "eth0",
+
+                                "gateway_access_token": "{{ gateway.gatewayAccessToken }}" 
+                    
+                                }</td>
+
+                        <td style="width: 150px;">
+                            <router-link :to="{ path: '/gateway/view/statistics', query: { gatewayId: gateway.id }}">
+                                <button class="btn btn-primary">View Statistics</button>
+                            </router-link>
+                        </td>
+
+                        <td style="width: 150px;">
                             <button class="btn btn-success"
                             data-toggle="modal" data-target="#populateGatewayServicesModal" 
                             @click="populateServicesonModal(gateway.id)">Services</button>
@@ -246,6 +266,8 @@ export default {
             gatewayInfo: '',
             gatewayIP: '',
             gatewayAccessToken: '',
+
+            gUserId: this.$store.getters.getAuthId,
 
             gatewaysList: [],
 

@@ -11,6 +11,16 @@ table tr td {
     border: 1px solid #eee;
 }
 
+.well-bordered {
+    border: 1px solid black; 
+    padding: 15px; 
+    border-radius: 5px;
+}
+
+.min-400-height {
+    min-height: 400px;
+}
+
 .center {
     text-align: center;
 }
