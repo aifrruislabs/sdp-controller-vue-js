@@ -76,7 +76,7 @@
 
                     <tr>
                         <td>Mac Address</td>
-                        <td><input type="text" v-model="macAddr" class="form-control"></td>
+                        <td><input type="text" v-model="macAddr" placeholder="Enter Mac Address aa:bb:cc:dd:ee:ff" class="form-control"></td>
                     </tr>
 
                     <tr>

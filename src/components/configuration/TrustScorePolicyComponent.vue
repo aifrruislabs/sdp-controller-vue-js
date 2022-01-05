@@ -72,8 +72,8 @@
                         <td>
                             <select v-model="scoreFactorId" class="form-control">
                                 <option v-for="trustScoreFactor in trustScoreFactors" 
-                                v-bind:value="trustScoreFactor.id"
-                                :key="trustScoreFactor.id">{{ trustScoreFactor.trustScoreFactorTitle }}</option>
+                                v-bind:value="trustScoreFactor.scoreFactorId"
+                                :key="trustScoreFactor.scoreFactorId">{{ trustScoreFactor.trustScoreFactorTitle }}</option>
                             </select>
                         </td>
                     </tr>
@@ -204,7 +204,7 @@ export default {
 
                             this.trustScoreFactors = resData.data
 
-                            this.scoreFactorId = this.trustScoreFactors['0']['id'];
+                            this.scoreFactorId = this.trustScoreFactors['0']['scoreFactorId'];
                         })
 
         },
