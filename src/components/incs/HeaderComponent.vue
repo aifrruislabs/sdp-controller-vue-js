@@ -170,6 +170,9 @@ import router from './../../router/index'
 
                     console.log('Error Occured : ' + error.message)
 
+                    //Logged Out Success
+                    this.$store.commit('authLogout')
+
                 })
             }
 
