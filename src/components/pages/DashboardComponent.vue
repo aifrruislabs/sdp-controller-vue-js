@@ -53,6 +53,22 @@
         
         </div>
 
+        <div class="row">
+            
+            <h3>Activities Logs</h3>
+            <hr/>
+
+            <table class="table table-bordered">
+                <tr>
+                    <td>ID</td>
+                    <td>Activity Title</td>
+                    <td>Activity Info</td>
+                    <td>Time</td>
+                </tr>
+            </table>
+
+        </div>
+
     </div>
 </template>
 
