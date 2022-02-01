@@ -17,6 +17,7 @@
                 <td>ID</td>
                 <td>Service Title</td>
                 <td>Service Info</td>
+                <td>Service Protocol</td>
                 <td>Service Port</td>
                 <td style="width: 120px;">Service Score</td>
                 <td>Actions</td>
@@ -26,13 +27,14 @@
                 <td>{{ id + 1}}</td>
                 <td>{{ service.serviceTitle }}</td>
                 <td>{{ service.serviceInfo }}</td>
+                <td>{{ getServiceProtoTitle(service.serviceProto) }}</td>
                 <td>{{ service.servicePort }}</td>
                 <td>{{ service.serviceScore }}%</td>
                 <td>
                     <div style="width: 100%;">
                         <div class="float-left">
                             <i class="fa fa-pencil" @click="setEditData(service.id, 
-                            service.serviceTitle, service.serviceInfo, service.servicePort, service.serviceScore)" data-toggle="modal" data-target="#editServiceModal" style="font-size: 24px; color: green;" aria-hidden="true"></i>
+                            service.serviceTitle, service.serviceInfo, service.servicePort, service.serviceScore, service.serviceProto)" data-toggle="modal" data-target="#editServiceModal" style="font-size: 24px; color: green;" aria-hidden="true"></i>
                         </div>
 
                         <div class="float-right">
@@ -62,6 +64,20 @@
                     <tr>
                         <td>Service Info</td>
                         <td><input type="text" class="form-control" v-model="serviceInfo"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Service Protocol</td>
+                        <td>
+                            <select class="form-control" v-model="selectedIdserviceProtocol">
+                                <option 
+                                    v-bind:value="serviceProtocol.id"
+                                    v-for="serviceProtocol in serviceProtocols"
+                                    :key="serviceProtocol.id">
+                                    {{ serviceProtocol.title }}
+                                </option>
+                            </select>
+                        </td>
                     </tr>
 
                     <tr>
@@ -116,6 +132,20 @@
                     </tr>
 
                     <tr>
+                        <td>Service Protocol</td>
+                        <td>
+                            <select class="form-control" v-model="toEditProtoId">
+                                <option 
+                                    v-bind:value="serviceProtocol.id"
+                                    v-for="serviceProtocol in serviceProtocols"
+                                    :key="serviceProtocol.id">
+                                    {{ serviceProtocol.title }}
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
                         <td>Service Score</td>
                         <td><input type="text" v-model="serviceScore" class="form-control"></td>
                     </tr>
@@ -159,7 +189,18 @@ export default {
 
             servicePort: '',
 
+            serviceProto: 'tcp',
+
             serviceScore: '',
+
+            toEditProtoId: 1,
+
+            selectedIdserviceProtocol: '1',
+
+            serviceProtocols: [
+                {id: 1, 'title' : 'TCP Protocol', 'shortCode': 'tcp'},
+                {id: 2, 'title' : 'UDP Protocol', 'shortCode': 'udp'},
+            ],
 
             services: []
 
@@ -169,6 +210,10 @@ export default {
 
     methods: {
 
+        getServiceProtoTitle(serviceProtoId) {
+            return this.serviceProtocols[parseInt(serviceProtoId) - 1]['title'];
+        },
+
         async updateService() {
 
             await axios.patch(this.$store.state.baseApi + "/api/v1/admin/service/update",
@@ -177,7 +222,8 @@ export default {
                     serviceTitle: this.serviceTitle,
                     serviceInfo: this.serviceInfo,
                     servicePort: this.servicePort,
-                    serviceScore: this.serviceScore
+                    serviceScore: this.serviceScore,
+                    serviceProto: this.toEditProtoId
                 },
 
                 { 
@@ -213,12 +259,15 @@ export default {
 
         },
 
-        setEditData(serviceId, serviceTitle, serviceInfo, servicePort, serviceScore) {
+        setEditData(serviceId, serviceTitle, serviceInfo, servicePort, serviceScore, serviceProto) {
             this.serviceId = serviceId
             this.serviceTitle = serviceTitle
             this.serviceInfo = serviceInfo
             this.servicePort = servicePort
             this.serviceScore = serviceScore 
+            this.selectedIdserviceProtocol = parseInt(serviceProto) - 1
+            this.toEditProtoId = parseInt(serviceProto)
+            this.serviceProto = this.serviceProtocols[parseInt(serviceProto) - 1]['shortCode']
         },
 
         deleteService(serviceId) {
@@ -299,7 +348,8 @@ export default {
                         serviceTitle: this.serviceTitle,
                         serviceInfo: this.serviceInfo,
                         servicePort: this.servicePort,
-                        serviceScore: this.serviceScore
+                        serviceScore: this.serviceScore,
+                        serviceProto: this.selectedIdserviceProtocol
                     }, { 
                     headers : {
                         'Content-Type': 'application/json',

@@ -53,7 +53,7 @@
         
         </div>
 
-        <div class="row">
+        <div class="row container">
             
             <h3>Activities Logs</h3>
             <hr/>
