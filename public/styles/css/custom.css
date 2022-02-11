@@ -11,8 +11,12 @@ table tr td {
     border: 1px solid #eee;
 }
 
+.minheight-pricing {
+    min-height: 500px;
+}
+
 .well-bordered {
-    border: 1px solid black; 
+    border: 1px solid #eeeeee; 
     padding: 15px; 
     border-radius: 5px;
 }
@@ -47,7 +51,7 @@ table tr td {
 
 .navbar-custom {
     border-radius: 0px;
-    background-color: #BA5c3C;
+    background-color: #008E9B;
     color: white;
 }
 
@@ -60,6 +64,6 @@ table tr td {
 }
 
 .navbar-custom ul li a:hover {
-    background-color: #ad7764;
+    background-color: #0ab2c2;
     color: white;
 }

@@ -1,9 +1,13 @@
 <template>
     <div>
 
+        <div class="col-md-4">
+
+        </div>
+
         <div class="col-md-4 col-md-offset-4">
 
-        <h2>Create New Account</h2>
+        <h3>Create New Account</h3>
         <hr/>
 
         <table>

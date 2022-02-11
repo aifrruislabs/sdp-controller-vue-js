@@ -10,7 +10,7 @@
                     <span class="icon-bar" style="background-color: white;"></span>
                     <span class="icon-bar" style="background-color: white;"></span>
                 </button>
-                <router-link class="navbar-brand" to="/">SDP Controller</router-link>
+                <router-link class="navbar-brand" to="/">Smart SDP</router-link>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -71,8 +71,23 @@
                     </li> -->
 
                     <li class="active" v-if="!isAuthenticated">
+                        <router-link to="/features"><i class="fa fa-snowflake-o" aria-hidden="true"></i>
+                            &nbsp;Features</router-link>
+                    </li>
+
+                    <li class="active" v-if="!isAuthenticated">
+                        <router-link to="/tutorials"><i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                            &nbsp;Tutorials</router-link>
+                    </li>
+
+                    <li class="active" v-if="!isAuthenticated">
                         <router-link to="/demo/videos"><i class="fa fa-television" aria-hidden="true"></i>
                             &nbsp;Demo Videos</router-link>
+                    </li>
+
+                    <li class="active" v-if="!isAuthenticated">
+                        <router-link to="/pricing"><i class="fa fa-usd" aria-hidden="true"></i>
+                            &nbsp;Pricing</router-link>
                     </li>
                     
                     <li v-if="!isAuthenticated">

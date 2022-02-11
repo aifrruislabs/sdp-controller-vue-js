@@ -2,9 +2,13 @@
     
     <div>
 
+        <div class="col-md-4">
+
+        </div>
+
         <div class="col-md-4 col-md-offset-4">
             
-            <h2>Account Login</h2>
+            <h3>Account Login</h3>
             <hr/>
 
             <table>

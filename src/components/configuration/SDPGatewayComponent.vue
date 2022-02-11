@@ -150,14 +150,19 @@
                         <td>Service Title</td>
                         <td>Service Info</td>
                         <td>Service Port</td>
+                        <td>Service Status</td>
                         <td>Actions</td>
                     </tr>
 
                     <tr v-for="(service, id) in gatewayServices" :key="service.id">
-                        <td>{{ id + 1}}</td>
+                        <td>{{ id + 1 }}</td>
                         <td>{{ service.serviceTitle }}</td>
                         <td>{{ service.serviceInfo }}</td>
                         <td>{{ service.servicePort }}</td>
+                        <td class="center">
+                            <toggle-button :value="service.serviceStatus == '1' ? true : false " 
+                            @change="toggleGatewayService(id, service)" color="#82C7EB" :sync="true" :labels="true"/>
+                        </td>
                         <td>
                             <div style="width: 100%;">
                                 <i class="fa fa-times" @click="deleteGatewayService(service.id)" style="font-size: 24px; color: red;" aria-hidden="true"></i>
@@ -280,6 +285,51 @@ export default {
 
     methods: {
 
+        //Toggle Gateway Service
+        async toggleGatewayService(index, service) {
+
+            await axios.post(this.$store.state.baseApi + "/api/v1/toggle/gateway/service/status", 
+                {
+                    'serviceId' : service.serviceId,
+                    'gatewayId' : service.gatewayId,
+                    'serviceStatus' : service.serviceStatus
+                },
+
+                { 
+                    headers : {
+                        'Content-Type': 'application/json',
+                        userId: this.$store.getters.getAuthId,
+                        authToken: this.$store.getters.getAuthToken
+                    }
+
+                })
+                
+                .then( (response) => {
+
+                    const resData = response.data
+
+                    if (resData['status'] == true) {
+
+                        if (this.gatewayServices[index]['serviceStatus'] == "1") {
+                            this.gatewayServices[index]['serviceStatus'] = "0";
+                        }else {
+                            this.gatewayServices[index]['serviceStatus'] = "1";
+                        }
+                        
+                    }else {
+
+                        Swal.fire(
+                                'Error!',
+                                'Failed to Toggle Service Status. Make Sure Gateway is Already Connected by Checking Gateway Statistics',
+                                'error'
+                                )
+                    }
+
+                });
+
+        },
+
+        //Delete Gateway Service
         async deleteGatewayService(serviceId) {
 
             await axios.post(this.$store.state.baseApi + "/api/v1/user/gateway/delete/service", 

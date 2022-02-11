@@ -13,6 +13,7 @@
     "jquery": "^3.6.0",
     "sweetalert2": "^11.2.1",
     "vue": "^2.6.11",
+    "vue-js-toggle-button": "^1.3.3",
     "vue-router": "^3.5.3",
     "vue-router-middleware": "^0.2.1",
     "vue-svg-gauge": "^1.2.1",

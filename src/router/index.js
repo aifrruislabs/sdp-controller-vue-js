@@ -27,6 +27,10 @@ import SDPServicesComponent from '@/components/admin/SDPServicesComponent.vue'
 import UsersManagerComponent from '@/components/pages/UsersManagerComponent.vue'
 import FaceRecognitionManageFacesComponent from '@/components/pages/FaceRecognitionManageFacesComponent.vue'
 
+import TutorialsComponent from '@/components/pages/TutorialsComponent.vue'
+import FeaturesComponent from '@/components/pages/FeaturesComponent.vue'
+import PricingComponent from '@/components/pages/PricingComponent.vue'
+
 import TrustScoresComponent from '@/components/pages/TrustScoresComponent.vue'
 
 const authMiddleware = (to, from, next) => {
@@ -51,6 +55,15 @@ export default new Router({
 	mode: 'hash',
 
 	routes: [
+
+		//Pricing
+		{ path: '/pricing', component: PricingComponent, name: 'pricing' },
+
+		//Tutorials
+		{ path: '/tutorials', component: TutorialsComponent, name: 'tutorials' },
+
+		//Features
+		{ path: '/features', component: FeaturesComponent, name: 'features' },
 
 		//View Gateway Statistics
 		{ path: '/gateway/view/statistics', component: GatewayStatsComponent, name: 'gateway-stats' },
