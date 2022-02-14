@@ -9,7 +9,7 @@
             <div class="col-md-4" >
                 <div class="right">
                     <i class="fa fa-plus" style="font-size: 20px;" 
-                        aria-hidden="true" data-toggle="modal" data-target="#addNewgatewayModal"></i>
+                        aria-hidden="true" data-toggle="modal" @click="clearModalDatas" data-target="#addNewgatewayModal"></i>
                 </div>
             </div>
         </div>
@@ -22,12 +22,13 @@
                 <table class="table table-bordered">
                     <tr>
                         <td>ID</td>
-                        <td>Gateway Title</td>
-                        <td>Gateway Info</td>
-                        <td>Gateway IP</td>
-                        <td>Gateway Config</td>
-                        <td>Gateway Statistics</td>
-                        <td>Gateway Services</td>
+                        <td>Title</td>
+                        <td>Info</td>
+                        <td>Accessibility</td>
+                        <td>IP Address</td>
+                        <td>Config</td>
+                        <td>Statistics</td>
+                        <td>Services</td>
                         <td>Actions</td>
                     </tr>
 
@@ -35,6 +36,7 @@
                         <td>{{ id + 1 }}</td>
                         <td>{{ gateway.gatewayTitle }}</td>
                         <td>{{ gateway.gatewayInfo }}</td>
+                        <td>{{ gateway.gatewayNetworkAccessibility == "0" ? "Internal" : "External" }}</td>
                         <td>{{ gateway.gatewayIP }}</td>
 
                         <td style="width: 150px;">
@@ -61,7 +63,7 @@
                         <td style="width: 150px;">
                             <button class="btn btn-success"
                             data-toggle="modal" data-target="#populateGatewayServicesModal" 
-                            @click="populateServicesonModal(gateway.id)">Services</button>
+                            @click="populateServicesonModal(gateway.id)">Manage Services</button>
                         </td>
                         
                         <td>
@@ -69,7 +71,7 @@
                                 <div class="float-left">
                                     <i class="fa fa-pencil" 
                                     data-toggle="modal" data-target="#editGatewayInfoModal"
-                                    @click="editGatewayInfo(gateway.id, gateway.gatewayTitle, gateway.gatewayInfo,
+                                    @click="editGatewayInfo(gateway.id, gateway.gatewayTitle, gateway.gatewayInfo, gateway.gatewayNetworkAccessibility,
                                     gateway.gatewayIP, gateway.gatewayAccessToken)" style="font-size: 24px; color: green;" aria-hidden="true"></i>
                                 </div>
 
@@ -105,6 +107,16 @@
                     <tr>
                         <td>Gateway Info</td>
                         <td><input type="text" v-model="gatewayInfo" class="form-control"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Network Accessibility</td>
+                        <td>
+                            <select v-model="gatewayNetworkAccessibility" class="form-control">
+                                <option value="0">Internal Network</option>
+                                <option value="1">External Network</option>
+                            </select>
+                        </td>
                     </tr>
 
                     <tr>
@@ -234,6 +246,16 @@
                     </tr>
 
                     <tr>
+                        <td>Network Accessibility</td>
+                        <td>
+                            <select v-model="gatewayNetworkAccessibility" class="form-control">
+                                <option value="0">Internal Network</option>
+                                <option value="1">External Network</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
                         <td></td>
                         <td><button class="btn btn-primary form-control" @click="addNewgateway()">Add New Gateway</button></td>
                     </tr>
@@ -269,6 +291,7 @@ export default {
             gatewayId: '',
             gatewayTitle: '',
             gatewayInfo: '',
+            gatewayNetworkAccessibility: '1',
             gatewayIP: '',
             gatewayAccessToken: '',
 
@@ -284,6 +307,16 @@ export default {
     },
 
     methods: {
+
+        //Clear Modal Datas
+        clearModalDatas() {
+            this.gatewayId = ''
+            this.gatewayTitle = ''
+            this.gatewayInfo = ''
+            this.gatewayNetworkAccessibility = '1'
+            this.gatewayIP = ''
+            this.gatewayAccessToken = ''
+        },
 
         //Toggle Gateway Service
         async toggleGatewayService(index, service) {
@@ -398,6 +431,7 @@ export default {
                     'gatewayId' : this.gatewayId,
                     'gatewayTitle' : this.gatewayTitle,
                     'gatewayInfo' : this.gatewayInfo,
+                    'gatewayNetworkAccessibility' : this.gatewayNetworkAccessibility,
                     'gatewayIP' : this.gatewayIP
                 },
 
@@ -507,10 +541,11 @@ export default {
         },
 
         //Edit Gateway Info
-        async editGatewayInfo(gatewayId, gatewayTitle, gatewayInfo, gatewayIP, gatewayAccessToken) {
+        async editGatewayInfo(gatewayId, gatewayTitle, gatewayInfo, gatewayNetworkAccessibility, gatewayIP, gatewayAccessToken) {
             this.gatewayId = gatewayId
             this.gatewayTitle = gatewayTitle
             this.gatewayInfo = gatewayInfo
+            this.gatewayNetworkAccessibility = gatewayNetworkAccessibility
             this.gatewayIP = gatewayIP
             this.gatewayAccessToken = gatewayAccessToken
         },
@@ -550,6 +585,7 @@ export default {
                 await axios.post(this.$store.state.baseApi + "/api/v1/user/gateway/create", {
                         gatewayTitle: this.gatewayTitle,
                         gatewayInfo: this.gatewayInfo,
+                        gatewayNetworkAccessibility : this.gatewayNetworkAccessibility,
                         gatewayIP: this.gatewayIP,
                     }, { 
                     

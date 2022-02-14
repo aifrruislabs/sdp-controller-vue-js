@@ -14,12 +14,12 @@
             <table>
                 <tr>
                     <td>Email</td>
-                    <td><input type="text" v-model="email" class="form-control"></td>
+                    <td><input type="text" @keyup.enter="login" v-model="email" class="form-control"></td>
                 </tr>
 
                 <tr>
                     <td>Password</td>
-                    <td><input type="password" v-model="password" class="form-control"></td>
+                    <td><input type="password" @keyup.enter="login" v-model="password" class="form-control"></td>
                 </tr>
 
                 <tr>
