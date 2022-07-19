@@ -10,9 +10,13 @@ export const store = new Vuex.Store({
 
 	state: {
 		
-		// baseApi: 'https://sdpapi.aifrruislabs.com',
+		baseApi: 'https://sdpapi.aifrruislabs.com',
 
-		baseApi: 'http://127.0.0.1:8000',
+		// baseApi: 'http://137.184.29.107:12800',
+
+		// baseApi: 'http://172.17.0.2:8000',
+
+		// baseApi: 'http://127.0.0.1:8000',
 
 		user: {
 			authId: '',

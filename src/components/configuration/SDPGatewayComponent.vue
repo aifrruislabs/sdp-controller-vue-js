@@ -339,9 +339,7 @@ export default {
                 
                 .then( (response) => {
 
-                    const resData = response.data
-
-                    if (resData['status'] == true) {
+                    if (response.status == 201) {
 
                         if (this.gatewayServices[index]['serviceStatus'] == "1") {
                             this.gatewayServices[index]['serviceStatus'] = "0";
